@@ -1,0 +1,97 @@
+<div class="container">
+    <h1>Disciplinas</h1>
+    <hr>
+    <div *ngIf="excluir_ok" class="alert alert-success">
+        <strong>Sucesso!</strong> A disciplina foi excluída com sucesso.
+    </div>
+    <table class="table table-hover table-bordered">
+        <thead class="thead-light">
+        <tr>
+            <th>Alunos</th>
+            <th>Ocorrencia</th>
+            <th width="200">Ações</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let disciplina of disciplinas"
+            [class.table-active]="editando == disciplina">
+            <td>
+            <i *ngIf="editando == disciplina"
+               class="fa fa-pencil-square"></i>
+            {{disciplina.nome}}
+        </td>
+            <td>
+                <i *ngIf="editando == disciplina"
+                   class="fa fa-pencil-square"></i>
+                {{disciplina.tipo.valueOf()}}
+            </td>
+
+            <td>
+                <button class="btn btn-sm btn-danger"
+                        (click)="excluir(disciplina)">
+                    <i class="fa fa-trash"></i> Excluir
+                </button>
+                <button class="btn btn-sm btn-primary"
+                        (click)="editar(disciplina)">
+                    <i class="fa fa-pencil-square"></i> Editar
+                </button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h2>Cadastrar</h2>
+    <p>Use este formulário para cadastrar ou editar uma disciplina.</p>
+    <div *ngIf="salvar_ok || editar_ok" class="alert alert-success">
+        <strong>Sucesso!</strong> A disciplina foi cadastrada ou atualizada
+        com sucesso.
+    </div>
+    <form #cadastro="ngForm" (submit)="salvar()">
+        <div class="form-group">
+            <label for="nome">Nome</label><br>
+            <input type="text" id="nome" name="nome" class="form-control"
+                   [(ngModel)]="nome"
+                   required>
+        </div>
+        <div class="form-group">
+            <label for="matricula">Matricula</label><br>
+            <input type="number" id="matricula" name="matricula" class="form-control"
+                   [(ngModel)]="matricula"
+                   required>
+        </div>
+
+        <button id='novo'  type="button" class="btn btn-success" (click)="oculta('exibir')">Compareceu</button>
+        <div class="form-control" >
+            <select id="periodo1" name="periodo" [(ngModel)]="periodo">
+                <option value="1" nome="1">Insciplinado em sala de aula</option>
+                <option value="2" nome="2">comportamento de rendimento</option>
+                <option value="3" nome="3">baixo indice de rendimento</option>
+                <option value="4" nome="4">indicação de atenção</option>
+
+            </select>
+        </div>
+
+        <div *ngIf="exibir===true"class="form-group">
+            <label  for="responsavel">Nome</label><br>
+            <input type="text" id="responsavel" name="responsavel" class="form-control"
+                   [(ngModel)]="responsavel"
+                   required>
+        </div>
+        <div  *ngIf="exibir===true" class="form-group">
+            <label for="data">Data</label><br>
+            <input type="date" id="data" name="data" class="form-control"
+                   [(ngModel)]="data"
+                   required>
+        </div>
+
+        <div class="text-right">
+            <button type="submit" class="btn btn-primary"
+                    [disabled]="!cadastro.valid">
+                <i class="fa fa-save"></i> Salvar
+            </button>
+            <button type="reset" class="btn btn-secondary" (click)="cancelar()">
+                Cancelar
+            </button>
+        </div>
+    </form>
+</div>
